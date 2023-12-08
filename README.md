@@ -31,7 +31,7 @@ CBZ
 EOR
 EORI
 LDUR
-LSL: This instruction uses the shamt field to encode the shift amount, while Rm is unused.
+LSL: This instruction uses the shamt field to encode the shift amount, while Rm is unused.
 LSR: Same as LSL.
 ORR
 ORRI
@@ -41,10 +41,10 @@ SUBI
 SUBIS
 SUBS
 MUL
-PRNT: This is an added instruction (part of our emulator, but not part of LEG or ARM) that prints a register name and its contents in hex and decimal.  This is an R instruction.  The opcode is 11111111101.  The register is given in the Rd field.
-PRNL: This is an added instruction that prints a blank line.  This is an R instruction.  The opcode is 11111111100.
-DUMP: This is an added instruction that displays the contents of all registers and memory, as well as the disassembled program.  This is an R instruction.  The opcode is 11111111110.
-HALT: This is an added instruction that triggers a DUMP and terminates the emulator.  This is an R instruction.  The opcode is 11111111111
+PRNT: This is an added instruction (part of our emulator, but not part of LEG or ARM) that prints a register name and its contents in hex and decimal. This is an R instruction. The opcode is 11111111101. The register is given in the Rd field.
+PRNL: This is an added instruction that prints a blank line. This is an R instruction. The opcode is 11111111100.
+DUMP: This is an added instruction that displays the contents of all registers and memory, as well as the disassembled program. This is an R instruction. The opcode is 11111111110.
+HALT: This is an added instruction that triggers a DUMP and terminates the emulator. This is an R instruction. The opcode is 11111111111
 
 You may implement your disassembler in any language you like so long is it builds (if a compiled language) and runs on pyrite.
 
