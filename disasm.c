@@ -139,6 +139,37 @@ char* printInstruction()
     else if (opcode == 0b11111000000){ //STUR
         sprintf(str, "STUR X%d, [X%d, #%d]\n", rt, rn, dt_addr);
     }
+    else if (opcode == 0b1011001000){ //ORRI
+        sprintf(str, "ORRI X%d, X%d, #%d\n", rd, rn, alu_imm);
+    }
+    else if (opcode == 0b10101010000){ //ORR
+        sprintf(str, "ORR X%d, X%d, X%d\n", rd, rn, rm);
+    }
+    else if (opcode == 0b11010011010){ //LSR
+        sprintf(str, "LSR X%d, X%d, #%d\n", rd, rn, shamt);
+    }
+    else if (opcode == 0b11010011011){ //LSL
+        sprintf(str, "LSL X%d, X%d, #%d\n", rd, rn, shamt);
+    }
+    else if (opcode == 0b11111000010){ //LDUR
+        sprintf(str, "LDUR X%d, [X%d, #%d]\n", rt, rn, dt_addr);
+    }
+    else if (opcode == 0b11111000010){ //LDUR
+        sprintf(str, "LDUR X%d, [X%d, #%d]\n", rt, rn, dt_addr);
+    }
+    else if (opcode == 0b11111111111){ //HALT
+        sprintf(str, "HALT\n");
+    }
+    else if (opcode == 0b11111111110){ //DUMP
+        sprintf(str, "DUMP\n");
+    }
+    else if (opcode == 0b11111111100){ //PRNL
+        sprintf(str, "PRNL\n");
+    }
+    else if (opcode == 0b11111111101){ //PRNT
+        sprintf(str, "PRNT X%d\n", rd);
+    }
+
     return str;
 }
 
