@@ -108,14 +108,155 @@ enum InstructionFormat {
     IW
 };
 
-InstructionFormat getInstructionFormation(uint32_t first_11_bits)
+InstructionFormat getInstructionFormat(uint32_t last_11_bits)
 {
-    switch (first_11_bits)
+    if (last_11_bits >= 160 && last_11_bits <= 191)
     {
-    case 69:
-        return R;
+        return InstructionFormat.B;
     }
+    else if (last_11_bits == 448)
+    {
+        return InstructionFormat.D;
+    }
+    else if (last_11_bits == 450)
+    {
+        return InstructionFormat.D;
+    }
+    else if (last_11_bits >= 672 && last_11_bits <= 679)
+    {
+        return InstructionFormat.CB;
+    }
+    else if (last_11_bits >= 712 && last_11_bits <= 713)
+    {
+        return InstructionFormat.I;
+    }
+    else if (last_11_bits >= 840 && last_11_bits <= 841)
+    {
+        return InstructionFormat.I;
+    }
+    else if (last_11_bits == 960)
+    {
+        return InstructionFormat.D;
+    }
+    else if (last_11_bits == 962)
+    {
+        return InstructionFormat.D;
+    }
+    else if (last_11_bits == 1104)
+    {
+        return InstructionFormat.R;
+    }
+    else if (last_11_bits == 1112)
+    {
+        return InstructionFormat.R;
+    }
+    else if (last_11_bits >= 1160 && last_11_bits <= 1161)
+    {
+        return InstructionFormat.I;
+    }
+    else if (last_11_bits >= 1168 && last_11_bits <= 1169)
+    {
+        return InstructionFormat.I;
+    }
+    else if (last_11_bits >= 1184 && last_11_bits <= 1215)
+    {
+        return InstructionFormat.B;
+    }
+    else if (last_11_bits == 1360)
+    {
+        return InstructionFormat.R;
+    }
+    else if (last_11_bits == 1368)
+    {
+        return InstructionFormat.R;
+    }
+    else if (last_11_bits >= 1416 && last_11_bits <= 1417)
+    {
+        return InstructionFormat.I;
+    }
+    else if (last_11_bits >= 1440 && last_11_bits <= 1447)
+    {
+        return InstructionFormat.CB;
+    }
+    else if (last_11_bits >= 1448 && last_11_bits <= 1455)
+    {
+        return InstructionFormat.CB;
+    }
+    else if (last_11_bits == 1472)
+    {
+        return InstructionFormat.D;
+    }
+    else if (last_11_bits == 1476)
+    {
+        return InstructionFormat.D;
+    }
+    else if (last_11_bits == 1600)
+    {
+        return InstructionFormat.D;
+    }
+	else if (last_11_bits == 1602)
+	{
+		return InstructionFormat.D;
+	}
+	else if (last_11_bits == 1616)
+	{
+		return InstructionFormat.R;
+	}
+	else if (last_11_bits == 1624)
+	{
+		return InstructionFormat.R;
+	}
+    else if (last_11_bits >= 1672 && last_11_bits <= 1673)
+    {
+        return InstructionFormat.I;
+    }
+    else if (last_11_bits >= 1684 && last_11_bits <= 1687)
+    {
+        return InstructionFormat.IM;
+    }
+	else if (last_11_bits == 1690)
+	{
+		return InstructionFormat.R;
+	}
+	else if (last_11_bits == 1691)
+	{
+		return InstructionFormat.R;
+	}
+	else if (last_11_bits == 1712)
+	{
+		return InstructionFormat.R;
+	}
+ 	else if (last_11_bits == 1872)
+	{
+		return InstructionFormat.R;
+	}
+ 	else if (last_11_bits == 1880)
+	{
+		return InstructionFormat.R;
+	}
+    else if (last_11_bits >= 1928 && last_11_bits <= 1929)
+    {
+        return InstructionFormat.I;
+    }
+    else if (last_11_bits >= 1936 && last_11_bits <= 1937)
+    {
+        return InstructionFormat.I;
+    }
+    else if (last_11_bits >= 1940 && last_11_bits <= 1943)
+    {
+        return InstructionFormat.IM;
+    }
+ 	else if (last_11_bits == 1984)
+	{
+		return InstructionFormat.D;
+	}
+ 	else if (last_11_bits == 1986)
+	{
+		return InstructionFormat.D;
+	}
 
+    // something bad happens if you get here
+    printf("ERROR");
     return InstructionFormat.R;
 }
 
@@ -199,13 +340,13 @@ void GetInstructionChunks(InstructionFormat format, uint32_t instruction)
 
 void decode(uint32_t instruction, uint32_t *bprogram) {
 
-    // first 11 bits for opcode
+    // last 11 bits for opcode
     uint32_t mask = (1 << 11) - 1;
-    // gets the first 11 bits
-    uint32_t first_11_bits = instuction & mask;
+    // gets the last 11 bits
+    uint32_t last_11_bits = (instuction >> 21) & mask;
 
     // get instruction format
-    InstructionFormat format = getInstructionFormat(first_11_bits);
+    InstructionFormat format = getInstructionFormat(last_11_bits);
 
     // extract fields from the instruction
     getInstructionChunks(format);
