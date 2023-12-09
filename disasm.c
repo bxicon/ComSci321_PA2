@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
     struct stat buf;
     uint32_t *program, *bprogram;
     size_t i;
-    char result[9999999999999999999999999999999];
+    char result[100000];
     int empty = 1;
 
 	// get file handle index
@@ -110,9 +110,6 @@ int main(int argc, char **argv) {
             strcat(result, decode(program[i], bprogram + i));
         }
 	}
-
-	// prints out the bprogram
-	// emulate(bprogram, buf.st_size / 4, &m);
 
 	return 0;
 }
