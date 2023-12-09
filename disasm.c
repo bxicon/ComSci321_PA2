@@ -5,8 +5,18 @@
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <endian.h>
+#include <string.h>
 
 uint32_t opcode, rn, rd, rm, rt, shamt, alu_imm, br_addr, dt_addr, op, cond_br_addr, mov_imm;
+
+enum InstructionFormat {
+    R,
+    I,
+    D,
+    B,
+    CB,
+    IW
+};
 
 instruction_t instruction[] = {
   { "ADD",     ADD_inst,    0b10001011000 },
@@ -72,6 +82,8 @@ int main(int argc, char **argv) {
     struct stat buf;
     uint32_t *program, *bprogram;
     size_t i;
+    char result[9999999999999999999999999999999];
+    int empty = 1;
 
 	// get file handle index
 	fd = open(argv[1], O_RDONLY);
@@ -90,7 +102,13 @@ int main(int argc, char **argv) {
 		program[i] = be32toh(program[i]);
 
 		// takes 32bit instruction and make out brian
-		decode(program[i], bprogram + i);
+        if (empty) {
+            strcpy(result, decode(program[i], bprogram + i));
+            empty = 0;
+        }
+        else {
+            strcat(result, decode(program[i], bprogram + i));
+        }
 	}
 
 	// prints out the bprogram
@@ -99,14 +117,17 @@ int main(int argc, char **argv) {
 	return 0;
 }
 
-enum InstructionFormat {
-    R,
-    I,
-    D,
-    B,
-    CB,
-    IW
-};
+char* printInstruction()
+{
+    if (opcode == 0b10001011000) // ADD
+    {
+        return "ADD ...";
+    }
+    else if ()
+    {
+    }
+
+}
 
 InstructionFormat getInstructionFormat(uint32_t last_11_bits)
 {
@@ -338,7 +359,7 @@ void GetInstructionChunks(InstructionFormat format, uint32_t instruction)
     }
 }
 
-void decode(uint32_t instruction, uint32_t *bprogram) {
+char* decode(uint32_t instruction, uint32_t *bprogram) {
 
     // last 11 bits for opcode
     uint32_t mask = (1 << 11) - 1;
@@ -351,13 +372,6 @@ void decode(uint32_t instruction, uint32_t *bprogram) {
     // extract fields from the instruction
     getInstructionChunks(format);
 
-    // Use opcode to determine the instruction
-    switch (opcode) {
-    case OPCODE_ADD:
-        // Handle ADD instruction
-        break;
-    // ... other cases
-    default:
-        printf("Unknown instruction: 0x%x\n", instruction);
-    }
+    // print instruction
+    return printInstruction();
 }
