@@ -121,40 +121,6 @@ char* printInstruction()
 {
     char str[50];
 
-    else if (opcode == 0b10001011000) { // ADD
-        sprintf(str, "ADD X%d, X%d, X%d\n", rd, rn, rm);
-    }
-    else if (opcode == 0b1001000100) { // ADDI
-        sprintf(str, "ADDI X%d, X%d, #%d\n", rd, rn, alu_imm);
-    }
-    else if (opcode == 0b10001010000) { // AND
-        sprintf(str, "AND X%d, X%d, X%d\n", rd, rn, rm);
-    }
-    else if (opcode == 0b1001001000) { // ANDI
-        sprintf(str, "ANDI X%d, X%d, #%d\n", rd, rn, alu_imm);
-    }
-    else if (opcode == 0b000101) { // B NOT GOING TO WORK
-        sprintf(str, "B %d\n", br_addr);
-    }
-    else if (opcode == 0b100101) { // BL NOT GOING TO WORK
-        sprintf(str, "BL %d\n", br_addr);
-    }
-    else if (opcode == 0b11010110000) { // BR NOT GOING TO WORK
-        sprintf(str, "BR X%d\n", rd);
-    }
-    else if (opcode == 0b10110101) { // CBNZ
-        sprintf(str, "CBNZ X%d, #%d\n", rt, cond_br_addr);
-    }
-    else if (opcode == 0b10110100) { // CBZ
-        sprintf(str, "CBNZ X%d, #%d\n", rt, cond_br_addr);
-    }
-    else if (opcode == 0b1001001000) { // EOR
-        sprintf(str, "EOR X%d, X%d, X%d\n", rd, rn, rm);
-    }
-    else if (opcode == 0b1001001000) { // EORI
-        sprintf(str, "EOR X%d, X%d, #%d\n", rd, rn, alu_imm);
-    }
-
     if (opcode == 0b10011011000){ //MUL
         sprintf(str, "MUL X%d, X%d, X%d\n", rd, rn, rm);
     }
@@ -202,6 +168,39 @@ char* printInstruction()
     }
     else if (opcode == 0b11111111101){ //PRNT
         sprintf(str, "PRNT X%d\n", rd);
+    }
+    else if (opcode == 0b10001011000) { // ADD
+        sprintf(str, "ADD X%d, X%d, X%d\n", rd, rn, rm);
+    }
+    else if (opcode == 0b1001000100) { // ADDI
+        sprintf(str, "ADDI X%d, X%d, #%d\n", rd, rn, alu_imm);
+    }
+    else if (opcode == 0b10001010000) { // AND
+        sprintf(str, "AND X%d, X%d, X%d\n", rd, rn, rm);
+    }
+    else if (opcode == 0b1001001000) { // ANDI
+        sprintf(str, "ANDI X%d, X%d, #%d\n", rd, rn, alu_imm);
+    }
+    else if (opcode == 0b000101) { // B NOT GOING TO WORK
+        sprintf(str, "B %d\n", br_addr);
+    }
+    else if (opcode == 0b100101) { // BL NOT GOING TO WORK
+        sprintf(str, "BL %d\n", br_addr);
+    }
+    else if (opcode == 0b11010110000) { // BR NOT GOING TO WORK
+        sprintf(str, "BR X%d\n", rd);
+    }
+    else if (opcode == 0b10110101) { // CBNZ
+        sprintf(str, "CBNZ X%d, #%d\n", rt, cond_br_addr);
+    }
+    else if (opcode == 0b10110100) { // CBZ
+        sprintf(str, "CBNZ X%d, #%d\n", rt, cond_br_addr);
+    }
+    else if (opcode == 0b1001001000) { // EOR
+        sprintf(str, "EOR X%d, X%d, X%d\n", rd, rn, rm);
+    }
+    else if (opcode == 0b1001001000) { // EORI
+        sprintf(str, "EOR X%d, X%d, #%d\n", rd, rn, alu_imm);
     }
 
     return str;
