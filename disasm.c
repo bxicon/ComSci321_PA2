@@ -6,7 +6,7 @@
 #include <sys/stat.h>
 #include <endian.h>
 
-uint32_t opcode, rn, rd, rm, shamt, addr, imm, br_addr, dt_addr;
+uint32_t opcode, rn, rd, rm, rt, shamt, alu_imm, br_addr, dt_addr, op, cond_br_addr, mov_imm;
 
 instruction_t instruction[] = {
   { "ADD",     ADD_inst,    0b10001011000 },
@@ -119,9 +119,82 @@ InstructionFormat getInstructionFormation(uint32_t first_11_bits)
     return InstructionFormat.R;
 }
 
-void GetInstructionChunks(InstructionFormat format)
+void GetInstructionChunks(InstructionFormat format, uint32_t instruction)
 {
     // set opcode, rn, rd, rm, shamt, addr, imm, br_addr, dt_addr
+
+    if(format == InstructionFormat.R){
+        uint32_t opcodeMask = (1 << 11) - 1;
+        opcode = (instruction >> 21) & opcodeMask;
+
+        uint32_t rMask = (1 << 5) - 1;
+        rm = (instruction >> 16) & rMask;
+
+        uint32_t shamtMask = (1 << 6) - 1;
+        shamt = (instruction >> 10) & shamtMask;
+
+        rn = (instruction >> 5) & rMask;
+
+        rd = (instruction) & rMask;
+    }
+    else if(format == InstructionFormat.I){
+        uint32_t opcodeMask = (1 << 10) - 1;
+        opcode = (instruction >> 22) & opcodeMask;
+
+        uint32_t AluImmMask = (1 << 12) - 1;
+        alu_imm = (instruction >> 10) & AluImmMask;
+
+        uint32_t rMask = (1 << 5) - 1;
+        rn = (instruction >> 5) & rMask;
+
+        rd = (instruction) & rMask;
+    }
+    else if(format = InstructionFormat.D){
+        uint32_t opcodeMask = (1 << 11) - 1;
+        opcode = (instruction >> 21) & opcodeMask;  
+
+        uint32_t DTAddressMask = (1 << 9) - 1;
+        dt_addr = (instruction >> 12) & DTAddressMask; 
+
+        uint32_t opMask = (1 << 2) - 1;
+        op = (instruction >> 10) & opMask; 
+
+        uint32_t rMask = (1 << 5) - 1;
+        rn = (instruction >> 5) & rMask;
+
+        rt = (instruction) & rMask;
+    }
+    else if(format = InstructionFormat.B){
+        uint32_t opcodeMask = (1 << 6) - 1;
+        opcode = (instruction >> 26) & opcodeMask;
+
+        uint32_t BRAddressMask = (1 << 26) - 1;
+        br_addr = (instruction) & BRAddressMask;
+    }
+    else if(format = InstructionFormat.CB)
+    {
+        uint32_t opcodeMask = (1 << 8) - 1;
+        opcode = (instruction >> 24) & opcodeMask;
+
+        uint32_t CONDBRAddressMask = (1 << 19) - 1;
+        cond_br_addr = (instruction >> 5) & CONDBRAddressMask;
+
+        uint32_t rMask = (1 << 5) - 1;
+        rt = (instruction) & rMask;
+    }
+    else if(format = InstructionFormat.IW){
+        uint32_t opcodeMask = (1 << 11) - 1;
+        opcode = (instruction >> 21) & opcodeMask;
+
+        uint32_t MOvImmMask = (1 << 16) - 1;
+        mov_imm = (instruction >> 5) & MOvImmMask;
+
+        uint32_t rMask = (1 << 5) - 1;
+        rd = (instruction) & rMask;
+    }
+    else{
+        printf(":(");
+    }
 }
 
 void decode(uint32_t instruction, uint32_t *bprogram) {
