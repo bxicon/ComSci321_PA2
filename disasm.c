@@ -119,14 +119,27 @@ int main(int argc, char **argv) {
 
 char* printInstruction()
 {
-    if (opcode == 0b10001011000) // ADD
-    {
-        return "ADD ...";
-    }
-    else if ()
-    {
-    }
+    char str[50];
 
+    if (opcode == 0b10011011000){ //MUL
+        sprintf(str, "MUL X%d, X%d, X%d\n", rd, rn, rm);
+    }
+    else if (opcode == 0b11101011000){ //SUBS
+        sprintf(str, "SUBS X%d, X%d, X%d\n", rd, rn, rm);
+    }
+    else if (opcode == 0b1111000100){ //SUBIS
+        sprintf(str, "SUBIS X%d, X%d, #%d\n", rd, rn, alu_imm);
+    }
+    else if (opcode == 0b1101000100){ //SUBI
+        sprintf(str, "SUBI X%d, X%d, #%d\n", rd, rn, alu_imm);
+    }
+    else if (opcode == 0b1101000100){ //SUB
+        sprintf(str, "SUB X%d, X%d, X%d\n", rd, rn, rm);
+    }
+    else if (opcode == 0b11111000000){ //STUR
+        sprintf(str, "STUR X%d, [X%d, #%d]\n", rt, rn, dt_addr);
+    }
+    return str;
 }
 
 InstructionFormat getInstructionFormat(uint32_t last_11_bits)
@@ -311,7 +324,7 @@ void GetInstructionChunks(InstructionFormat format, uint32_t instruction)
 
         rd = (instruction) & rMask;
     }
-    else if(format = InstructionFormat.D){
+    else if(format == InstructionFormat.D){
         uint32_t opcodeMask = (1 << 11) - 1;
         opcode = (instruction >> 21) & opcodeMask;  
 
@@ -326,14 +339,14 @@ void GetInstructionChunks(InstructionFormat format, uint32_t instruction)
 
         rt = (instruction) & rMask;
     }
-    else if(format = InstructionFormat.B){
+    else if(format == InstructionFormat.B){
         uint32_t opcodeMask = (1 << 6) - 1;
         opcode = (instruction >> 26) & opcodeMask;
 
         uint32_t BRAddressMask = (1 << 26) - 1;
         br_addr = (instruction) & BRAddressMask;
     }
-    else if(format = InstructionFormat.CB)
+    else if(format == InstructionFormat.CB)
     {
         uint32_t opcodeMask = (1 << 8) - 1;
         opcode = (instruction >> 24) & opcodeMask;
@@ -344,7 +357,7 @@ void GetInstructionChunks(InstructionFormat format, uint32_t instruction)
         uint32_t rMask = (1 << 5) - 1;
         rt = (instruction) & rMask;
     }
-    else if(format = InstructionFormat.IW){
+    else if(format == InstructionFormat.IW){
         uint32_t opcodeMask = (1 << 11) - 1;
         opcode = (instruction >> 21) & opcodeMask;
 
